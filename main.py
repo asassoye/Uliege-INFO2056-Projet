@@ -7,6 +7,7 @@ fini = False
 
 GRANDEUR = 64
 
+#Salut
 
 class World:
     def __init__(self):
