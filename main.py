@@ -7,8 +7,6 @@ fini = False
 
 GRANDEUR = 64
 
-#Salut
-
 class World:
     def __init__(self):
         self.surface = pygame.display.set_mode([30 * GRANDEUR, 15 * GRANDEUR])
