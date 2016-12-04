@@ -49,26 +49,41 @@ class ImageBlock:
 class Personnage:
     def __init__(self, nom, position, pose, vie):
         self.nom = nom
-        self.url = './personnageBlock/' + nom + '.png'
+        self.url = './personnageBlock/' + nom + '/'
         self.position = position
         self.pose = pose
         self.mort = False
-        self.surface = pygame.image.load(self.url)
-        self.surface = pygame.transform.scale(self.surface, (GRANDEUR, GRANDEUR))
         self.vie = vie
+        self.surface = list()
+
+        for pose in ['TOP', 'RIGHT', 'DOWN', 'LEFT']:
+            self.surface.append(pygame.transform.scale(pygame.image.load(self.url + pose + '.png'), (GRANDEUR, GRANDEUR)))
 
     def deplacer(self, evenement):
         if evenement.type == pygame.KEYDOWN:
+            if evenement.key == pygame.K_UP:
+                self.position[1][1] -= 1
+                self.pose = 0
+                self.dessine()
             if evenement.key == pygame.K_RIGHT:
                 self.position[1][0] += 1
+                self.pose = 1
+                self.dessine()
+            if evenement.key == pygame.K_DOWN:
+                self.position[1][1] += 1
+                self.pose = 2
+                self.dessine()
+            if evenement.key == pygame.K_LEFT:
+                self.position[1][0] -= 1
+                self.pose = 3
                 self.dessine()
 
     def dessine(self):
-        world.surface.blit(self.surface, [self.position[1][0] * GRANDEUR, self.position[1][1] * GRANDEUR] )
+        world.surface.blit(self.surface[self.pose], [self.position[1][0] * GRANDEUR, self.position[1][1] * GRANDEUR] )
         pygame.display.flip()
 
 
-me = Personnage('Andrew', [[0], [1, 1]], 2, 1)
+me = Personnage('Benoit', [[0], [1, 1]], 2, 1)
 world = World()
 
 imageBlock = list()
