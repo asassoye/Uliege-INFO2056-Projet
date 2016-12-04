@@ -41,7 +41,7 @@ class ImageBlock:
         self.nom = nom
         self.url = './imageBlock/' + nom + '.png'
         self.obstacle = obstacle
-        self.surface = pygame.image.load(self.url)
+        self.surface = pygame.image.load(self.url).convert()
         self.surface = pygame.transform.scale(self.surface, (SCALE, SCALE))
 
     def dessine(self, coordonees):
@@ -60,7 +60,11 @@ class Personnage:
 
         for pose in ['TOP', 'RIGHT', 'DOWN', 'LEFT']:
             self.surface.append(
-                pygame.transform.scale(pygame.image.load(self.url + pose + '.png'), (SCALE, SCALE)))
+                pygame.transform.scale(
+                    pygame.image.load(self.url + pose + '.png'),
+                    (SCALE, SCALE)
+                )
+            )
 
     def caseactuel(self):
         return carte.elements[self.position[1][1]][self.position[1][0]]
