@@ -48,7 +48,7 @@ class ImageBlock:
 class Personnage:
     def __init__(self, nom, position, pose, vie):
         self.nom = nom
-        self.url = './personageBlock/' + nom + '.png'
+        self.url = './personnageBlock/' + nom + '.png'
         self.position = position
         self.pose = pose
         self.mort = False
@@ -65,12 +65,12 @@ class Personnage:
         world.surface.blit(self.surface, [self.position[1][0], self.position[1][1]])
         pygame.display.flip()
 
-me = Personnage('Andrew', [[0],[1,1]], 2, 1)
+me = Personnage('Andrew', [[0], [1, 1]], 2, 1)
 world = World()
 
 imageBlock = []
-imageBlock.append(imageBlock("0", False))
-imageBlock.append(imageBlock("1", False))
+imageBlock.append(ImageBlock("0", False))
+imageBlock.append(ImageBlock("1", False))
 
 temp = [[1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -96,11 +96,10 @@ me.dessine()
 
 while not fini:
     for evenement in pygame.event.get():
-        me.deplace(evenement)
+        me.deplacer(evenement)
 
-    if evenement.type == pygame.QUIT:
-        fini = True
-
+        if evenement.type == pygame.QUIT:
+            fini = True
 
     time.tick(60)
 
