@@ -33,6 +33,8 @@ class Carte:
 
         pygame.display.flip()
 
+    def quelblock(self, coordonnees):
+        return imageBlock[self.elements[coordonnees[1]][coordonnees[0]]]
 
 class ImageBlock:
     def __init__(self, nom, obstacle):
@@ -66,33 +68,42 @@ class Personnage:
     def deplacer(self, evenement):
             imageBlock[self.caseactuel()].dessine([self.position[1][0], self.position[1][1]])
             if evenement.key == pygame.K_UP:
-                if self.limite('UP'):
+                if not self.limite('UP') and not self.obstacle('UP'):
                     self.position[1][1] -= 1
                     self.pose = 0
             if evenement.key == pygame.K_RIGHT:
-                if self.limite('RIGHT'):
+                if not self.limite('RIGHT') and not self.obstacle('RIGHT'):
                     self.position[1][0] += 1
                     self.pose = 1
             if evenement.key == pygame.K_DOWN:
-                if self.limite('DOWN'):
+                if not self.limite('DOWN') and not self.obstacle('DOWN'):
                     self.position[1][1] += 1
                     self.pose = 2
             if evenement.key == pygame.K_LEFT:
-                if self.limite('LEFT'):
+                if not self.limite('LEFT') and not self.obstacle('LEFT'):
                     self.position[1][0] -= 1
                     self.pose = 3
             self.dessine()
 
     def limite(self, direction):
         if direction == 'UP':
-            return self.position[1][1] != 0
+            return self.position[1][1] == 0
         if direction == 'RIGHT':
-            return self.position[1][0] != LIMITES[0] - 1
+            return self.position[1][0] == LIMITES[0] - 1
         if direction == 'DOWN':
-            return self.position[1][1] != LIMITES[1] - 1
+            return self.position[1][1] == LIMITES[1] - 1
         if direction == 'LEFT':
-            return self.position[1][0] != 0
+            return self.position[1][0] == 0
 
+    def obstacle(self, direction):
+        if direction == 'UP':
+            return carte.quelblock([self.position[1][0], self.position[1][1] - 1]).obstacle
+        if direction == 'RIGHT':
+            return carte.quelblock([self.position[1][0] + 1, self.position[1][1]]).obstacle
+        if direction == 'DOWN':
+            return carte.quelblock([self.position[1][0], self.position[1][1] + 1]).obstacle
+        if direction == 'LEFT':
+            return carte.quelblock([self.position[1][0] - 1, self.position[1][1]]).obstacle
 
     def dessine(self):
         world.surface.blit(self.surface[self.pose], [self.position[1][0] * SCALE, self.position[1][1] * SCALE])
