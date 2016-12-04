@@ -5,11 +5,12 @@ pygame.init()
 time = pygame.time.Clock()
 fini = False
 
-GRANDEUR = 64
+SCALE = 64
+LIMITES = [20, 10]
 
 class World:
     def __init__(self):
-        self.surface = pygame.display.set_mode([30 * GRANDEUR, 15 * GRANDEUR])
+        self.surface = pygame.display.set_mode([20 * SCALE, 12 * SCALE])
         pygame.display.flip()
 
 
@@ -39,10 +40,10 @@ class ImageBlock:
         self.url = './imageBlock/' + nom + '.png'
         self.obstacle = obstacle
         self.surface = pygame.image.load(self.url)
-        self.surface = pygame.transform.scale(self.surface, (GRANDEUR, GRANDEUR))
+        self.surface = pygame.transform.scale(self.surface, (SCALE, SCALE))
 
     def dessine(self, coordonees):
-        world.surface.blit(self.surface, [coordonees[0] * GRANDEUR, coordonees[1] * GRANDEUR])
+        world.surface.blit(self.surface, [coordonees[0] * SCALE, coordonees[1] * SCALE])
 
 
 class Personnage:
@@ -57,33 +58,44 @@ class Personnage:
 
         for pose in ['TOP', 'RIGHT', 'DOWN', 'LEFT']:
             self.surface.append(
-                pygame.transform.scale(pygame.image.load(self.url + pose + '.png'), (GRANDEUR, GRANDEUR)))
+                pygame.transform.scale(pygame.image.load(self.url + pose + '.png'), (SCALE, SCALE)))
 
     def caseactuel(self):
         return carte.elements[self.position[1][1]][self.position[1][0]]
 
     def deplacer(self, evenement):
-        if evenement.type == pygame.KEYDOWN:
             imageBlock[self.caseactuel()].dessine([self.position[1][0], self.position[1][1]])
             if evenement.key == pygame.K_UP:
-                self.position[1][1] -= 1
-                self.pose = 0
-                self.dessine()
+                if self.limite('UP'):
+                    self.position[1][1] -= 1
+                    self.pose = 0
             if evenement.key == pygame.K_RIGHT:
-                self.position[1][0] += 1
-                self.pose = 1
-                self.dessine()
+                if self.limite('RIGHT'):
+                    self.position[1][0] += 1
+                    self.pose = 1
             if evenement.key == pygame.K_DOWN:
-                self.position[1][1] += 1
-                self.pose = 2
-                self.dessine()
+                if self.limite('DOWN'):
+                    self.position[1][1] += 1
+                    self.pose = 2
             if evenement.key == pygame.K_LEFT:
-                self.position[1][0] -= 1
-                self.pose = 3
-                self.dessine()
+                if self.limite('LEFT'):
+                    self.position[1][0] -= 1
+                    self.pose = 3
+            self.dessine()
+
+    def limite(self, direction):
+        if direction == 'UP':
+            return self.position[1][1] != 0
+        if direction == 'RIGHT':
+            return self.position[1][0] != LIMITES[0] - 1
+        if direction == 'DOWN':
+            return self.position[1][1] != LIMITES[1] - 1
+        if direction == 'LEFT':
+            return self.position[1][0] != 0
+
 
     def dessine(self):
-        world.surface.blit(self.surface[self.pose], [self.position[1][0] * GRANDEUR, self.position[1][1] * GRANDEUR])
+        world.surface.blit(self.surface[self.pose], [self.position[1][0] * SCALE, self.position[1][1] * SCALE])
         pygame.display.flip()
 
 
@@ -122,8 +134,8 @@ me.dessine()
 
 while not fini:
     for evenement in pygame.event.get():
-        me.deplacer(evenement)
-
+        if evenement.type == pygame.KEYDOWN:
+            me.deplacer(evenement)
         if evenement.type == pygame.QUIT:
             fini = True
 
