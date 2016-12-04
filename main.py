@@ -1,4 +1,5 @@
 import pygame
+
 pygame.init()
 
 time = pygame.time.Clock()
@@ -18,11 +19,11 @@ class Carte:
         self.elements = elements
         self.portes = portes
 
-    def afficheCarte(self):
-        i=0
+    def affichecarte(self):
+        i = 0
 
         for lines in self.elements:
-            j=0
+            j = 0
 
             for element in lines:
                 imageBlock[element].dessine([j, i])
@@ -53,6 +54,7 @@ class Personnage:
         self.pose = pose
         self.mort = False
         self.surface = pygame.image.load(self.url)
+        self.surface = pygame.transform.scale(self.surface, (GRANDEUR, GRANDEUR))
         self.vie = vie
 
     def deplacer(self, evenement):
@@ -62,13 +64,14 @@ class Personnage:
                 self.dessine()
 
     def dessine(self):
-        world.surface.blit(self.surface, [self.position[1][0], self.position[1][1]])
+        world.surface.blit(self.surface, [self.position[1][0] * GRANDEUR, self.position[1][1] * GRANDEUR] )
         pygame.display.flip()
+
 
 me = Personnage('Andrew', [[0], [1, 1]], 2, 1)
 world = World()
 
-imageBlock = []
+imageBlock = list()
 imageBlock.append(ImageBlock("0", False))
 imageBlock.append(ImageBlock("1", False))
 
@@ -90,7 +93,7 @@ temp = [[1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         ]
 
 carte = Carte(temp, temp)
-carte.afficheCarte()
+carte.affichecarte()
 
 me.dessine()
 
