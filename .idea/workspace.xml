@@ -12,7 +12,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/PremierProjetDeProgra$rpg.coverage" NAME="rpg Coverage Results" MODIFIED="1480864353110" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PremierProjetDeProgra$rpg.coverage" NAME="rpg Coverage Results" MODIFIED="1480866104466" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -23,9 +23,18 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="77" column="29" lean-forward="false" selection-start-line="77" selection-start-column="29" selection-end-line="77" selection-end-column="29" />
-              <folding />
+            <state relative-caret-position="460">
+              <caret line="67" column="90" lean-forward="false" selection-start-line="67" selection-start-column="90" selection-end-line="67" selection-end-column="90" />
+              <folding>
+                <element signature="e#444#579#0" expanded="false" />
+                <element signature="e#501#559#0" expanded="false" />
+                <element signature="e#678#908#0" expanded="false" />
+                <element signature="e#1852#1937#0" expanded="false" />
+                <element signature="e#2002#2087#0" expanded="false" />
+                <element signature="e#2300#2385#0" expanded="false" />
+                <element signature="e#4321#4474#0" expanded="false" />
+                <element signature="e#4366#4455#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -444,7 +453,9 @@
     <option name="LAST_COMMIT_MESSAGE" value="Création de la classe Personnage&#10;" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="6" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -466,9 +477,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="77" column="29" lean-forward="false" selection-start-line="77" selection-start-column="29" selection-end-line="77" selection-end-column="29" />
-          <folding />
+        <state relative-caret-position="460">
+          <caret line="67" column="90" lean-forward="false" selection-start-line="67" selection-start-column="90" selection-end-line="67" selection-end-column="90" />
+          <folding>
+            <element signature="e#444#579#0" expanded="false" />
+            <element signature="e#501#559#0" expanded="false" />
+            <element signature="e#678#908#0" expanded="false" />
+            <element signature="e#1852#1937#0" expanded="false" />
+            <element signature="e#2002#2087#0" expanded="false" />
+            <element signature="e#2300#2385#0" expanded="false" />
+            <element signature="e#4321#4474#0" expanded="false" />
+            <element signature="e#4366#4455#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

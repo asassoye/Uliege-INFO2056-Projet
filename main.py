@@ -57,10 +57,15 @@ class Personnage:
         self.surface = list()
 
         for pose in ['TOP', 'RIGHT', 'DOWN', 'LEFT']:
-            self.surface.append(pygame.transform.scale(pygame.image.load(self.url + pose + '.png'), (GRANDEUR, GRANDEUR)))
+            self.surface.append(
+                pygame.transform.scale(pygame.image.load(self.url + pose + '.png'), (GRANDEUR, GRANDEUR)))
+
+    def caseactuel(self):
+        return carte.elements[self.position[1][1]][self.position[1][0]]
 
     def deplacer(self, evenement):
         if evenement.type == pygame.KEYDOWN:
+            imageBlock[self.caseactuel()].dessine([self.position[1][0], self.position[1][1]])
             if evenement.key == pygame.K_UP:
                 self.position[1][1] -= 1
                 self.pose = 0
@@ -79,7 +84,7 @@ class Personnage:
                 self.dessine()
 
     def dessine(self):
-        world.surface.blit(self.surface[self.pose], [self.position[1][0] * GRANDEUR, self.position[1][1] * GRANDEUR] )
+        world.surface.blit(self.surface[self.pose], [self.position[1][0] * GRANDEUR, self.position[1][1] * GRANDEUR])
         pygame.display.flip()
 
 
