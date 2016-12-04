@@ -41,3 +41,25 @@ class ImageBlock:
     def dessine(self, coordonees):
         world.surface.blit(self.surface, [coordonees[0] * GRANDEUR, coordonees[1] * GRANDEUR)
 
+
+class Personnage:
+    def __init__(self, nom, position, pose, vie):
+        self.nom = nom
+        self.url = './personageBlock/' + nom + '.png'
+        self.position = position
+        self.pose = pose
+        self.mort = False
+        self.surface = pygame.image.load(self.url)
+        self.vie = vie
+
+    def deplacer(self, evenement):
+        if evenement.type == pygame.KEYDOWN:
+            if evenement.key == pygame.K_RIGHT:
+                self.position[1][0] += 1
+                self.dessine()
+
+    def dessine(self):
+        world.surface.blit(self.surface, [self.position[1][0], self.position[1][1]])
+        pygame.display.flip()
+
+
