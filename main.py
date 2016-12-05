@@ -15,9 +15,8 @@ class World:
 
 
 class Carte:
-    def __init__(self, elements, portes):
+    def __init__(self, elements):
         self.elements = elements
-        self.portes = portes
 
     def affichecarte(self):
         i = 0
@@ -49,13 +48,11 @@ class ImageBlock:
 
 
 class Personnage:
-    def __init__(self, nom, position, pose, vie):
+    def __init__(self, nom, position, pose):
         self.nom = nom
         self.url = './personnageBlock/' + nom + '/'
         self.position = position
         self.pose = pose
-        self.mort = False
-        self.vie = vie
         self.surface = list()
 
         for pose in ['TOP', 'RIGHT', 'DOWN', 'LEFT']:
