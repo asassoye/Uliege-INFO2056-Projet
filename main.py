@@ -222,7 +222,7 @@ class Personnage:
             if self.nom == 'Andrew':
                 return self.position[1][0] == world.player[1].position[1][0] + 1 and self.position[1][1] == world.player[1].position[1][1]
             else:
-                return self.position[1][0] == world.player[1].position[1][0] + 1 and self.position[1][1] == world.player[0].position[1][1]
+                return self.position[1][0] == world.player[0].position[1][0] + 1 and self.position[1][1] == world.player[0].position[1][1]
 
     def dessine(self):
         world.surface.blit(self.surface[self.pose],
