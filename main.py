@@ -1,18 +1,18 @@
 import pygame
 
-pygame.init()
-
-time = pygame.time.Clock()
-fini = False
-
-SCALE = 32
-LIMITES = [40, 20]
-
 
 class World:
     def __init__(self):
-        self.surface = pygame.display.set_mode([LIMITES[0] * SCALE, LIMITES[1] * SCALE])
+        pygame.init()
+        self.time = pygame.time.Clock()
+        self.SCALE = 32
+        self.LIMITES = [40, 20]
+        self.surface = pygame.display.set_mode([self.LIMITES[0] * self.SCALE, self.LIMITES[1] * self.SCALE])
         self.ending = False
+        self.imageBlock = list()
+        self.maps = list()
+        self.player = list()
+        self.carte = object()
         pygame.display.flip()
 
     def eventlistener(self):
@@ -21,31 +21,91 @@ class World:
                 self.ending = True
             if evenement.type == pygame.KEYDOWN:
                 if evenement.key == pygame.K_z:
-                    player[0].deplacer('UP')
+                    self.player[0].deplacer('UP')
                 if evenement.key == pygame.K_d:
-                    player[0].deplacer('RIGHT')
+                    self.player[0].deplacer('RIGHT')
                 if evenement.key == pygame.K_s:
-                    player[0].deplacer('DOWN')
+                    self.player[0].deplacer('DOWN')
                 if evenement.key == pygame.K_q:
-                    player[0].deplacer('LEFT')
+                    self.player[0].deplacer('LEFT')
                 if evenement.key == pygame.K_UP:
-                    player[1].deplacer('UP')
+                    self.player[1].deplacer('UP')
                 if evenement.key == pygame.K_RIGHT:
-                    player[1].deplacer('RIGHT')
+                    self.player[1].deplacer('RIGHT')
                 if evenement.key == pygame.K_DOWN:
-                    player[1].deplacer('DOWN')
+                    self.player[1].deplacer('DOWN')
                 if evenement.key == pygame.K_LEFT:
-                    player[1].deplacer('LEFT')
+                    self.player[1].deplacer('LEFT')
 
     def start(self):
+        self.initblocks()
+        self.initmaps()
+        self.initplayers()
         while not self.ending:
             self.eventlistener()
-
-            time.tick(60)
+            self.time.tick(60)
 
         pygame.display.quit()
         pygame.quit()
         exit()
+
+    def initblocks(self):
+        self.imageBlock.append(ImageBlock("0", False))
+        self.imageBlock.append(ImageBlock("1", False))
+        self.imageBlock.append(ImageBlock("2", False))
+        self.imageBlock.append(ImageBlock("3", True))
+
+    def initplayers(self):
+        self.player.append(Personnage('Andrew', [[0], [1, 1]], 2))
+        self.player.append(Personnage('Dominik', [[0], [38, 18]], 2))
+
+    def initmaps(self):
+        self.maps.append(
+            [[3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+              3, 3, 3, 3, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 3],
+             [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+              3, 3, 3, 3, 3]
+             ]
+        )
+
+        self.carte = Carte(self.maps[0])
+        self.carte.affichecarte()
 
 
 class Carte:
@@ -59,7 +119,7 @@ class Carte:
             j = 0
 
             for element in lines:
-                imageBlock[element].dessine([j, i])
+                world.imageBlock[element].dessine([j, i])
                 j += 1
 
             i += 1
@@ -67,7 +127,7 @@ class Carte:
         pygame.display.flip()
 
     def quelblock(self, coordonnees):
-        return imageBlock[self.elements[coordonnees[1]][coordonnees[0]]]
+        return world.imageBlock[self.elements[coordonnees[1]][coordonnees[0]]]
 
 
 class ImageBlock:
@@ -76,10 +136,10 @@ class ImageBlock:
         self.url = './imageBlock/' + nom + '.png'
         self.obstacle = obstacle
         self.surface = pygame.image.load(self.url).convert()
-        self.surface = pygame.transform.scale(self.surface, (SCALE, SCALE))
+        self.surface = pygame.transform.scale(self.surface, (world.SCALE, world.SCALE))
 
     def dessine(self, coordonees):
-        world.surface.blit(self.surface, [coordonees[0] * SCALE, coordonees[1] * SCALE])
+        world.surface.blit(self.surface, [coordonees[0] * world.SCALE, coordonees[1] * world.SCALE])
 
 
 class Personnage:
@@ -94,15 +154,16 @@ class Personnage:
             self.surface.append(
                 pygame.transform.scale(
                     pygame.image.load(self.url + pose + '.png'),
-                    (SCALE, SCALE)
+                    (world.SCALE, world.SCALE)
                 )
             )
+        self.dessine()
 
     def caseactuel(self):
-        return carte.elements[self.position[1][1]][self.position[1][0]]
+        return world.carte.elements[self.position[1][1]][self.position[1][0]]
 
     def deplacer(self, evenement):
-        imageBlock[self.caseactuel()].dessine([self.position[1][0], self.position[1][1]])
+        world.imageBlock[self.caseactuel()].dessine([self.position[1][0], self.position[1][1]])
         if evenement == 'UP':
             if not self.limite('UP') and not self.obstacle('UP'):
                 self.position[1][1] -= 1
@@ -125,66 +186,27 @@ class Personnage:
         if direction == 'UP':
             return self.position[1][1] == 0
         if direction == 'RIGHT':
-            return self.position[1][0] == LIMITES[0] - 1
+            return self.position[1][0] == world.LIMITES[0] - 1
         if direction == 'DOWN':
-            return self.position[1][1] == LIMITES[1] - 1
+            return self.position[1][1] == world.LIMITES[1] - 1
         if direction == 'LEFT':
             return self.position[1][0] == 0
 
     def obstacle(self, direction):
         if direction == 'UP':
-            return carte.quelblock([self.position[1][0], self.position[1][1] - 1]).obstacle
+            return world.carte.quelblock([self.position[1][0], self.position[1][1] - 1]).obstacle
         if direction == 'RIGHT':
-            return carte.quelblock([self.position[1][0] + 1, self.position[1][1]]).obstacle
+            return world.carte.quelblock([self.position[1][0] + 1, self.position[1][1]]).obstacle
         if direction == 'DOWN':
-            return carte.quelblock([self.position[1][0], self.position[1][1] + 1]).obstacle
+            return world.carte.quelblock([self.position[1][0], self.position[1][1] + 1]).obstacle
         if direction == 'LEFT':
-            return carte.quelblock([self.position[1][0] - 1, self.position[1][1]]).obstacle
+            return world.carte.quelblock([self.position[1][0] - 1, self.position[1][1]]).obstacle
 
     def dessine(self):
-        world.surface.blit(self.surface[self.pose], [self.position[1][0] * SCALE, self.position[1][1] * SCALE])
+        world.surface.blit(self.surface[self.pose],
+                           [self.position[1][0] * world.SCALE, self.position[1][1] * world.SCALE])
         pygame.display.flip()
 
 
-player = list()
-player.append(Personnage('Andrew', [[0], [1, 1]], 2))
-player.append(Personnage('Dominik', [[0], [38, 18]], 2))
-
 world = World()
-
-imageBlock = list()
-imageBlock.append(ImageBlock("0", False))
-imageBlock.append(ImageBlock("1", False))
-imageBlock.append(ImageBlock("2", False))
-imageBlock.append(ImageBlock("3", True))
-
-
-temp = [[3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3],
-        [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
-        ]
-
-carte = Carte(temp)
-carte.affichecarte()
-
-player[0].dessine()
-player[1].dessine()
-
 world.start()
