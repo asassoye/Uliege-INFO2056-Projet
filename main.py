@@ -10,7 +10,7 @@ LIMITES = [40, 20]
 
 class World:
     def __init__(self):
-        self.surface = pygame.display.set_mode([20 * SCALE, 12 * SCALE])
+        self.surface = pygame.display.set_mode([LIMITES[0] * SCALE, LIMITES[1] * SCALE])
         pygame.display.flip()
 
 
