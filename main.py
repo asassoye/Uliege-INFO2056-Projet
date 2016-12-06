@@ -5,8 +5,8 @@ pygame.init()
 time = pygame.time.Clock()
 fini = False
 
-SCALE = 64
-LIMITES = [20, 10]
+SCALE = 32
+LIMITES = [40, 20]
 
 class World:
     def __init__(self):
