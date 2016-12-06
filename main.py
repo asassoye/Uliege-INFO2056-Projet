@@ -5,8 +5,8 @@ pygame.init()
 time = pygame.time.Clock()
 fini = False
 
-SCALE = 22
-LIMITES = [30, 20]
+SCALE = 32
+LIMITES = [40, 20]
 
 class World:
     def __init__(self):
@@ -83,7 +83,7 @@ class Personnage:
             if evenement.key == pygame.K_LEFT:
                 if not self.limite('LEFT') and not self.obstacle('LEFT'):
                     self.position[1][0] -= 1
-                    self.pose = 2
+                    self.pose = 3
             self.dessine()
 
     def limite(self, direction):
@@ -113,7 +113,7 @@ class Personnage:
 
 player = list()
 player.append(Personnage('Andrew', [[0], [1, 1]], 2))
-player.append(Personnage('Dominik', [[0], [28, 18]], 2))
+player.append(Personnage('Dominik', [[0], [38, 18]], 2))
 
 world = World()
 
