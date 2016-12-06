@@ -8,10 +8,44 @@ fini = False
 SCALE = 32
 LIMITES = [40, 20]
 
+
 class World:
     def __init__(self):
         self.surface = pygame.display.set_mode([LIMITES[0] * SCALE, LIMITES[1] * SCALE])
+        self.ending = False
         pygame.display.flip()
+
+    def eventlistener(self):
+        for evenement in pygame.event.get():
+            if evenement.type == pygame.QUIT:
+                self.ending = True
+            if evenement.type == pygame.KEYDOWN:
+                if evenement.key == pygame.K_z:
+                    player[0].deplacer('UP')
+                if evenement.key == pygame.K_d:
+                    player[0].deplacer('RIGHT')
+                if evenement.key == pygame.K_s:
+                    player[0].deplacer('DOWN')
+                if evenement.key == pygame.K_q:
+                    player[0].deplacer('LEFT')
+                if evenement.key == pygame.K_UP:
+                    player[1].deplacer('UP')
+                if evenement.key == pygame.K_RIGHT:
+                    player[1].deplacer('RIGHT')
+                if evenement.key == pygame.K_DOWN:
+                    player[1].deplacer('DOWN')
+                if evenement.key == pygame.K_LEFT:
+                    player[1].deplacer('LEFT')
+
+    def start(self):
+        while not self.ending:
+            self.eventlistener()
+
+            time.tick(60)
+
+        pygame.display.quit()
+        pygame.quit()
+        exit()
 
 
 class Carte:
@@ -34,6 +68,7 @@ class Carte:
 
     def quelblock(self, coordonnees):
         return imageBlock[self.elements[coordonnees[1]][coordonnees[0]]]
+
 
 class ImageBlock:
     def __init__(self, nom, obstacle):
@@ -67,24 +102,24 @@ class Personnage:
         return carte.elements[self.position[1][1]][self.position[1][0]]
 
     def deplacer(self, evenement):
-            imageBlock[self.caseactuel()].dessine([self.position[1][0], self.position[1][1]])
-            if evenement.key == pygame.K_UP:
-                if not self.limite('UP') and not self.obstacle('UP'):
-                    self.position[1][1] -= 1
-                    self.pose = 0
-            if evenement.key == pygame.K_RIGHT:
-                if not self.limite('RIGHT') and not self.obstacle('RIGHT'):
-                    self.position[1][0] += 1
-                    self.pose = 1
-            if evenement.key == pygame.K_DOWN:
-                if not self.limite('DOWN') and not self.obstacle('DOWN'):
-                    self.position[1][1] += 1
-                    self.pose = 2
-            if evenement.key == pygame.K_LEFT:
-                if not self.limite('LEFT') and not self.obstacle('LEFT'):
-                    self.position[1][0] -= 1
-                    self.pose = 3
-            self.dessine()
+        imageBlock[self.caseactuel()].dessine([self.position[1][0], self.position[1][1]])
+        if evenement == 'UP':
+            if not self.limite('UP') and not self.obstacle('UP'):
+                self.position[1][1] -= 1
+                self.pose = 0
+        if evenement == 'RIGHT':
+            if not self.limite('RIGHT') and not self.obstacle('RIGHT'):
+                self.position[1][0] += 1
+                self.pose = 1
+        if evenement == 'DOWN':
+            if not self.limite('DOWN') and not self.obstacle('DOWN'):
+                self.position[1][1] += 1
+                self.pose = 2
+        if evenement == 'LEFT':
+            if not self.limite('LEFT') and not self.obstacle('LEFT'):
+                self.position[1][0] -= 1
+                self.pose = 3
+        self.dessine()
 
     def limite(self, direction):
         if direction == 'UP':
