@@ -184,20 +184,7 @@ temp = [[3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 carte = Carte(temp)
 carte.affichecarte()
 
-
 player[0].dessine()
 player[1].dessine()
 
-
-while not fini:
-    for evenement in pygame.event.get():
-        if evenement.type == pygame.KEYDOWN:
-            player[1].deplacer(evenement)
-        if evenement.type == pygame.QUIT:
-            fini = True
-
-    time.tick(60)
-
-pygame.display.quit()
-pygame.quit()
-exit()
+world.start()
