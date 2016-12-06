@@ -15,9 +15,8 @@ class World:
 
 
 class Carte:
-    def __init__(self, elements, portes):
+    def __init__(self, elements):
         self.elements = elements
-        self.portes = portes
 
     def affichecarte(self):
         i = 0
@@ -49,13 +48,11 @@ class ImageBlock:
 
 
 class Personnage:
-    def __init__(self, nom, position, pose, vie):
+    def __init__(self, nom, position, pose):
         self.nom = nom
         self.url = './personnageBlock/' + nom + '/'
         self.position = position
         self.pose = pose
-        self.mort = False
-        self.vie = vie
         self.surface = list()
 
         for pose in ['TOP', 'RIGHT', 'DOWN', 'LEFT']:
@@ -114,7 +111,7 @@ class Personnage:
         pygame.display.flip()
 
 
-me = Personnage('Benoit', [[0], [1, 1]], 2, 1)
+me = Personnage('Benoit', [[0], [1, 1]], 2)
 world = World()
 
 imageBlock = list()
@@ -130,19 +127,19 @@ imageBlock.append(ImageBlock("8", False))
 imageBlock.append(ImageBlock("9", True))
 imageBlock.append(ImageBlock("10", True))
 
-temp = [[9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 4, 6, 6, 6, 6, 6, 6, 6, 4],
-        [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 7, 6, 8, 6, 7, 6, 4],
-        [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 4, 4, 1, 4, 4, 4, 4],
-        [9, 0, 0, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-        [9, 0, 0, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-        [9, 0, 0, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-        [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-        [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-        [9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-        [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9]
+temp = [[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+        [4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+        [4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+        [4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+        [4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+        [4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+        [4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+        [4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+        [4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
+        [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
         ]
 
-carte = Carte(temp, [0])
+carte = Carte(temp)
 carte.affichecarte()
 
 me.dessine()
