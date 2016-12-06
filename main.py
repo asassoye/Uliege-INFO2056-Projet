@@ -120,15 +120,9 @@ world = World()
 imageBlock = list()
 imageBlock.append(ImageBlock("0", False))
 imageBlock.append(ImageBlock("1", False))
-imageBlock.append(ImageBlock("2", False))
 imageBlock.append(ImageBlock("3", False))
 imageBlock.append(ImageBlock("4", True))
-imageBlock.append(ImageBlock("5", True))
-imageBlock.append(ImageBlock("6", True))
-imageBlock.append(ImageBlock("7", True))
-imageBlock.append(ImageBlock("8", False))
-imageBlock.append(ImageBlock("9", True))
-imageBlock.append(ImageBlock("10", True))
+
 
 temp = [[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
         [4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4],
