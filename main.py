@@ -15,6 +15,18 @@ class World:
         self.carte = object()
         pygame.display.flip()
 
+    def start(self):
+        self.initblocks()
+        self.initmaps()
+        self.initplayers()
+        while not self.ending:
+            self.eventlistener()
+            self.time.tick(60)
+
+        pygame.display.quit()
+        pygame.quit()
+        exit()
+
     def eventlistener(self):
         for evenement in pygame.event.get():
             if evenement.type == pygame.QUIT:
@@ -36,18 +48,6 @@ class World:
                     self.player[1].deplacer('DOWN')
                 if evenement.key == pygame.K_LEFT:
                     self.player[1].deplacer('LEFT')
-
-    def start(self):
-        self.initblocks()
-        self.initmaps()
-        self.initplayers()
-        while not self.ending:
-            self.eventlistener()
-            self.time.tick(60)
-
-        pygame.display.quit()
-        pygame.quit()
-        exit()
 
     def initblocks(self):
         self.imageBlock.append(ImageBlock("0", False))
