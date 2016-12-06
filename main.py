@@ -78,6 +78,20 @@ class World:
         self.imageBlock.append(ImageBlock("1", False))
         self.imageBlock.append(ImageBlock("2", False))
         self.imageBlock.append(ImageBlock("3", True))
+        self.imageBlock.append(ImageBlock("4", True))
+        self.imageBlock.append(ImageBlock("5", True))
+        self.imageBlock.append(ImageBlock("6", True))
+        self.imageBlock.append(ImageBlock("7", True))
+        self.imageBlock.append(ImageBlock("8", True))
+        self.imageBlock.append(ImageBlock("9", True))
+        self.imageBlock.append(ImageBlock("10", True))
+        self.imageBlock.append(ImageBlock("11", True))
+        self.imageBlock.append(ImageBlock("12", True))
+        self.imageBlock.append(ImageBlock("13", True))
+        self.imageBlock.append(ImageBlock("14", True))
+        self.imageBlock.append(ImageBlock("15", True))
+        self.imageBlock.append(ImageBlock("16", True))
+        self.imageBlock.append(ImageBlock("17", True))
 
     """
     "
@@ -97,12 +111,12 @@ class World:
 
     def initlevels(self):
         self.level.append(
-            [[3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-             [3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2],
-             [3, 2, 3, 3, 2, 3, 2, 3, 3, 3, 2, 3, 2, 3, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 2, 3, 2],
-             [3, 2, 3, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2],
-             [3, 2, 3, 3, 2, 3, 2, 3, 3, 3, 2, 3, 2, 3, 3, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 2, 3, 2],
-             [3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2],
+            [[3, 7, 7, 7, 7, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+             [6, 2, 2, 2, 2, 9, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2],
+             [6, 2, 10, 16, 2, 17, 2, 14, 3, 3, 2, 3, 2, 3, 3, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 3, 3, 2, 3, 2],
+             [6, 2, 9, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2],
+             [6, 2, 13, 16, 2, 3, 2, 3, 3, 3, 2, 3, 2, 3, 3, 3, 2, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 2, 3, 2],
+             [6, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 3, 2],
              [3, 3, 3, 2, 3, 3, 3, 3, 2, 3, 3, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 3],
              [3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 3],
              [3, 2, 3, 3, 3, 2, 3, 2, 3, 3, 3, 2, 3, 3, 2, 3, 2, 3, 3, 3, 3, 2, 3, 2, 3, 3, 3, 3, 3, 3],
