@@ -111,7 +111,10 @@ class Personnage:
         pygame.display.flip()
 
 
-me = Personnage('Benoit', [[0], [1, 1]], 2)
+player = list()
+player.append(Personnage('Andrew', [[0], [1, 1]], 2))
+player.append(Personnage('Dominik', [[0], [38, 18]], 2))
+
 world = World()
 
 imageBlock = list()
@@ -152,12 +155,15 @@ temp = [[4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
 carte = Carte(temp)
 carte.affichecarte()
 
-me.dessine()
+
+player[0].dessine()
+player[1].dessine()
+
 
 while not fini:
     for evenement in pygame.event.get():
         if evenement.type == pygame.KEYDOWN:
-            me.deplacer(evenement)
+            player[1].deplacer(evenement)
         if evenement.type == pygame.QUIT:
             fini = True
 
