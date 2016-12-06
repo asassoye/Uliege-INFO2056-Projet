@@ -165,19 +165,19 @@ class Personnage:
     def deplacer(self, evenement):
         world.imageBlock[self.caseactuel()].dessine([self.position[1][0], self.position[1][1]])
         if evenement == 'UP':
-            if not self.limite('UP') and not self.obstacle('UP'):
+            if not self.limite(evenement) and not self.obstacle(evenement) and not self.autrepersonne(evenement):
                 self.position[1][1] -= 1
                 self.pose = 0
         if evenement == 'RIGHT':
-            if not self.limite('RIGHT') and not self.obstacle('RIGHT'):
+            if not self.limite(evenement) and not self.obstacle(evenement) and not self.autrepersonne(evenement):
                 self.position[1][0] += 1
                 self.pose = 1
         if evenement == 'DOWN':
-            if not self.limite('DOWN') and not self.obstacle('DOWN'):
+            if not self.limite(evenement) and not self.obstacle(evenement) and not self.autrepersonne(evenement):
                 self.position[1][1] += 1
                 self.pose = 2
         if evenement == 'LEFT':
-            if not self.limite('LEFT') and not self.obstacle('LEFT'):
+            if not self.limite(evenement) and not self.obstacle(evenement) and not self.autrepersonne(evenement):
                 self.position[1][0] -= 1
                 self.pose = 3
         self.dessine()
@@ -201,6 +201,28 @@ class Personnage:
             return world.carte.quelblock([self.position[1][0], self.position[1][1] + 1]).obstacle
         if direction == 'LEFT':
             return world.carte.quelblock([self.position[1][0] - 1, self.position[1][1]]).obstacle
+
+    def autrepersonne(self, direction):
+        if direction == 'UP':
+            if self.nom == 'Andrew':
+                return self.position[1][1] == world.player[1].position[1][1] + 1 and self.position[1][0] == world.player[1].position[1][0]
+            else:
+                return self.position[1][1] == world.player[0].position[1][1] + 1 and self.position[1][0] == world.player[0].position[1][0]
+        if direction == 'RIGHT':
+            if self.nom == 'Andrew':
+                return self.position[1][0] == world.player[1].position[1][0] - 1 and self.position[1][1] == world.player[1].position[1][1]
+            else:
+                return self.position[1][0] == world.player[0].position[1][0] - 1 and self.position[1][1] == world.player[0].position[1][1]
+        if direction == 'DOWN':
+            if self.nom == 'Andrew':
+                return self.position[1][1] == world.player[1].position[1][1] - 1 and self.position[1][0] == world.player[1].position[1][0]
+            else:
+                return self.position[1][1] == world.player[0].position[1][1] - 1 and self.position[1][0] == world.player[0].position[1][0]
+        if direction == 'LEFT':
+            if self.nom == 'Andrew':
+                return self.position[1][0] == world.player[1].position[1][0] + 1 and self.position[1][1] == world.player[1].position[1][1]
+            else:
+                return self.position[1][0] == world.player[1].position[1][0] + 1 and self.position[1][1] == world.player[0].position[1][1]
 
     def dessine(self):
         world.surface.blit(self.surface[self.pose],
