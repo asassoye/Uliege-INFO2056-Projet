@@ -296,13 +296,13 @@ class Personnage:
 
     def limite(self, direction):
         if direction == 'UP':
-            return self.position[1][1] == world.LIMITES[1] - 1
-        if direction == 'RIGHT':
-            return self.position[1][0] == 0
-        if direction == 'DOWN':
             return self.position[1][1] == 0
-        if direction == 'LEFT':
+        if direction == 'RIGHT':
             return self.position[1][0] == world.LIMITES[0] - 1
+        if direction == 'DOWN':
+            return self.position[1][1] == world.LIMITES[1] - 1
+        if direction == 'LEFT':
+            return self.position[1][0] == 0
 
     """
     "
