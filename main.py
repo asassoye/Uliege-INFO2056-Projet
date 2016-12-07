@@ -176,6 +176,9 @@ class Carte:
     def quelblock(self, coordonnees):
         return world.imageBlock[self.elements[coordonnees[1]][coordonnees[0]]]
 
+    def coloriecase(self, type, coordonnees):
+        self.elements[coordonnees[0]][coordonnees[1]] = type
+
 
 """
 "
