@@ -100,8 +100,8 @@ class World:
     """
 
     def initplayers(self):
-        self.player.append(Personnage('Andrew', [[0], [1, 1]], 2))
-        self.player.append(Personnage('Dominik', [[0], [1, 2]], 2))
+        self.player.append(Personnage(1, [[0], [1, 1]], 2))
+        self.player.append(Personnage(2, [[0], [28, 16]], 2))
 
     """
     "
@@ -152,6 +152,26 @@ class World:
             [ 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4], #16
             [ 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4], #17
             [ 3, 5, 5,11, 2, 2, 2,10, 5,11, 2, 2, 2,10, 5, 5,11, 2, 2, 2,10, 5,11, 2, 2, 2,10, 5, 5, 3]  #18
+        self.level.append([
+            # 0, 1, 0, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29
+            [ 3, 7, 7,12, 0, 0, 0,13, 7,12, 0, 0, 0,13, 7, 7,12, 0, 0, 0,13, 7,12, 0, 0, 0,13, 7, 7, 3],  #0
+            [ 6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],  #1
+            [ 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],  #2
+            [12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,13],  #3
+            [ 0, 0, 0, 0,10, 5,11, 0, 0, 0,10, 5,11, 0, 0, 0, 0,10, 5,11, 0, 0, 0,10, 5,11, 0, 0, 0, 0],  #4
+            [ 0, 0, 0, 0, 4, 3, 6, 0, 0, 0, 4, 3, 6, 0, 0, 0, 0, 4, 3, 6, 0, 0, 0, 4, 3, 6, 0, 0, 0, 0],  #5
+            [ 0, 0, 0, 0,13, 7,12, 0, 0, 0,13, 7,12, 0, 0, 0, 0,13, 7,12, 0, 0, 0,13, 7,12, 0, 0, 0, 0],  #6
+            [11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10],  #7
+            [ 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10,11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],  #8
+            [ 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,13,12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],  #9
+            [12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,13],  #10
+            [ 0, 0, 0, 0,10, 5,11, 0, 0, 0,10, 5,11, 0, 0, 0, 0,10, 5,11, 0, 0, 0,10, 5,11, 0, 0, 0, 0],  #11
+            [ 0, 0, 0, 0, 4, 3, 6, 0, 0, 0, 4, 3, 6, 0, 0, 0, 0, 4, 3, 6, 0, 0, 0, 4, 3, 6, 0, 0, 0, 0],  #12
+            [ 0, 0, 0, 0,13, 7,12, 0, 0, 0,13, 7,12, 0, 0, 0, 0,13, 7,12, 0, 0, 0,13, 7,12, 0, 0, 0, 0],  #13
+            [11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10],  #14
+            [ 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],  #15
+            [ 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4],  #16
+            [ 3, 5, 5,11, 0, 0, 0,10, 5,11, 0, 0, 0,10, 5, 5,11, 0, 0, 0,10, 5,11, 0, 0, 0,10, 5, 5, 3]   #17
             ]
         )
 
@@ -200,7 +220,8 @@ class Carte:
         return world.imageBlock[self.elements[coordonnees[1]][coordonnees[0]]]
 
     def coloriecase(self, type, coordonnees):
-        self.elements[coordonnees[0]][coordonnees[1]] = type
+        self.elements[coordonnees[1]][coordonnees[0]] = type
+        world.imageBlock[type].dessine([coordonnees[0], coordonnees[1]])
 
 
 """
@@ -238,7 +259,7 @@ class ImageBlock:
 class Personnage:
     def __init__(self, nom, position, pose):
         self.nom = nom
-        self.url = './personnageBlock/' + nom + '/'
+        self.url = './personnageBlock/' + str(nom) + '/'
         self.position = position
         self.pose = pose
         self.surface = list()
@@ -272,18 +293,22 @@ class Personnage:
         world.imageBlock[self.caseactuel()].dessine([self.position[1][0], self.position[1][1]])
         if evenement == 'UP':
             if not self.limite(evenement) and not self.obstacle(evenement) and not self.autrepersonne(evenement):
+                world.carte.coloriecase(self.nom, [self.position[1][0], self.position[1][1] - 1])
                 self.position[1][1] -= 1
                 self.pose = 0
         if evenement == 'RIGHT':
             if not self.limite(evenement) and not self.obstacle(evenement) and not self.autrepersonne(evenement):
+                world.carte.coloriecase(self.nom, [self.position[1][0] + 1, self.position[1][1]])
                 self.position[1][0] += 1
                 self.pose = 1
         if evenement == 'DOWN':
             if not self.limite(evenement) and not self.obstacle(evenement) and not self.autrepersonne(evenement):
+                world.carte.coloriecase(self.nom, [self.position[1][0], self.position[1][1] + 1])
                 self.position[1][1] += 1
                 self.pose = 2
         if evenement == 'LEFT':
             if not self.limite(evenement) and not self.obstacle(evenement) and not self.autrepersonne(evenement):
+                world.carte.coloriecase(self.nom, [self.position[1][0] - 1, self.position[1][1]])
                 self.position[1][0] -= 1
                 self.pose = 3
         self.dessine()
@@ -328,28 +353,28 @@ class Personnage:
 
     def autrepersonne(self, direction):
         if direction == 'UP':
-            if self.nom == 'Andrew':
+            if self.nom == 1:
                 return self.position[1][1] == world.player[1].position[1][1] + 1 and self.position[1][0] == \
                                                                                      world.player[1].position[1][0]
             else:
                 return self.position[1][1] == world.player[0].position[1][1] + 1 and self.position[1][0] == \
                                                                                      world.player[0].position[1][0]
         if direction == 'RIGHT':
-            if self.nom == 'Andrew':
+            if self.nom == 1:
                 return self.position[1][0] == world.player[1].position[1][0] - 1 and self.position[1][1] == \
                                                                                      world.player[1].position[1][1]
             else:
                 return self.position[1][0] == world.player[0].position[1][0] - 1 and self.position[1][1] == \
                                                                                      world.player[0].position[1][1]
         if direction == 'DOWN':
-            if self.nom == 'Andrew':
+            if self.nom == 1:
                 return self.position[1][1] == world.player[1].position[1][1] - 1 and self.position[1][0] == \
                                                                                      world.player[1].position[1][0]
             else:
                 return self.position[1][1] == world.player[0].position[1][1] - 1 and self.position[1][0] == \
                                                                                      world.player[0].position[1][0]
         if direction == 'LEFT':
-            if self.nom == 'Andrew':
+            if self.nom == 1:
                 return self.position[1][0] == world.player[1].position[1][0] + 1 and self.position[1][1] == \
                                                                                      world.player[1].position[1][1]
             else:
