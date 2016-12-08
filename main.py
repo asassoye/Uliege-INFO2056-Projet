@@ -85,14 +85,16 @@ class World:
 
     def eventlistener(self):
         for evenement in pygame.event.get():
-            if evenement.type == pygame.QUIT:
-                self.ending = True
-
             if self.environnement == "menu":
+                if evenement.type == pygame.QUIT:
+                    if evenement.type == pygame.QUIT:
+                        self.ending = True
                 if evenement.type == pygame.MOUSEBUTTONDOWN:
                     self.environnement = 'playing'
 
             if self.environnement == "playing":
+                if evenement.type == pygame.QUIT:
+                    self.environnement = 'menu'
                 if evenement.type == pygame.KEYDOWN:
                     if evenement.key == pygame.K_z:
                         self.player[0].deplacer('UP')
