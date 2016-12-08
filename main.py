@@ -318,26 +318,39 @@ class Personnage:
 
     def deplacer(self, evenement):
         world.imageBlock[self.caseactuel()].dessine([self.position[1][0], self.position[1][1]])
-        if evenement == 'UP':
-            if not self.limite(evenement) and not self.obstacle(evenement) and not self.autrepersonne(evenement):
-                world.carte.coloriecase(self.nom, [self.position[1][0], self.position[1][1] - 1])
-                self.position[1][1] -= 1
-                self.pose = 0
-        if evenement == 'RIGHT':
-            if not self.limite(evenement) and not self.obstacle(evenement) and not self.autrepersonne(evenement):
-                world.carte.coloriecase(self.nom, [self.position[1][0] + 1, self.position[1][1]])
-                self.position[1][0] += 1
-                self.pose = 1
-        if evenement == 'DOWN':
-            if not self.limite(evenement) and not self.obstacle(evenement) and not self.autrepersonne(evenement):
-                world.carte.coloriecase(self.nom, [self.position[1][0], self.position[1][1] + 1])
-                self.position[1][1] += 1
+        if not self.autrepersonne(evenement):
+            if self.obstacle(evenement):
+                if self.nom == 1:
+                    self.position[1] = [1,1]
+                if self.nom == 2:
+                    self.position[1] = [28, 16]
                 self.pose = 2
-        if evenement == 'LEFT':
-            if not self.limite(evenement) and not self.obstacle(evenement) and not self.autrepersonne(evenement):
-                world.carte.coloriecase(self.nom, [self.position[1][0] - 1, self.position[1][1]])
-                self.position[1][0] -= 1
-                self.pose = 3
+            else:
+                if evenement == 'UP':
+                    if self.limite(evenement):
+                        self.position[1][1] = world.LIMITES[1] - 1
+                    else:
+                        self.position[1][1] -= 1
+                    self.pose = 0
+                if evenement == 'RIGHT':
+                    if self.limite(evenement):
+                        self.position[1][0] = 0
+                    else:
+                        self.position[1][0] += 1
+                    self.pose = 1
+                if evenement == 'DOWN':
+                    if self.limite(evenement):
+                        self.position[1][1] = 0
+                    else:
+                        self.position[1][1] += 1
+                    self.pose = 2
+                if evenement == 'LEFT':
+                    if self.limite(evenement):
+                        self.position[1][0] = world.LIMITES[0] - 1
+                    else:
+                        self.position[1][0] -= 1
+                    self.pose = 3
+            world.carte.coloriecase(self.nom, [self.position[1][0], self.position[1][1]])
         self.dessine()
 
     """
@@ -364,13 +377,13 @@ class Personnage:
 
     def obstacle(self, direction):
         if direction == 'UP':
-            return world.carte.quelblock([self.position[1][0], self.position[1][1] - 1]).obstacle
+            return world.carte.quelblock([self.position[1][0], (self.position[1][1] - 1) % world.LIMITES[1]]).obstacle
         if direction == 'RIGHT':
-            return world.carte.quelblock([self.position[1][0] + 1, self.position[1][1]]).obstacle
+            return world.carte.quelblock([(self.position[1][0] + 1) % world.LIMITES[0], self.position[1][1]]).obstacle
         if direction == 'DOWN':
-            return world.carte.quelblock([self.position[1][0], self.position[1][1] + 1]).obstacle
+            return world.carte.quelblock([self.position[1][0], (self.position[1][1] + 1) % world.LIMITES[1]]).obstacle
         if direction == 'LEFT':
-            return world.carte.quelblock([self.position[1][0] - 1, self.position[1][1]]).obstacle
+            return world.carte.quelblock([(self.position[1][0] - 1) % world.LIMITES[0], self.position[1][1]]).obstacle
 
     """
     "
