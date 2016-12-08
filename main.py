@@ -14,6 +14,7 @@ class World:
         self.SCALE = 40
         self.LIMITES = [30, 18]
         self.surface = pygame.display.set_mode([self.LIMITES[0] * self.SCALE, self.LIMITES[1] * self.SCALE])
+        self.environnement = str()
         self.ending = False
         self.imageBlock = list()
         self.level = list()
@@ -28,16 +29,50 @@ class World:
     """
 
     def start(self):
+        self.environnement = 'menu'
         self.initblocks()
         self.initlevels()
+        self.initcarte()
         self.initplayers()
         while not self.ending:
+            if self.environnement == 'menu':
+                self.showmenu()
+
+            if self.environnement == 'playing':
+                self.play()
+
             self.eventlistener()
             self.time.tick(60)
+
+
 
         pygame.display.quit()
         pygame.quit()
         exit()
+
+    def showmenu(self):
+        menu = list()
+
+        menu.append(pygame.image.load('./menu/main.png').convert())
+        menu[0] = pygame.transform.scale(menu[0], (self.LIMITES[0] * self.SCALE, self.LIMITES[1] * self.SCALE))
+
+        menu.append(pygame.image.load('./menu/mainanim.png').convert())
+        menu[1] = pygame.transform.scale(menu[1], (self.LIMITES[0] * self.SCALE, self.LIMITES[1] * self.SCALE))
+
+        tmp = 1
+        while self.environnement == 'menu' and not self.ending:
+            tmp = not tmp
+            self.surface.blit(menu[tmp], [0, 0])
+            pygame.display.flip()
+            self.eventlistener()
+            self.time.tick(10)
+
+    def play(self):
+        self.dessinecarte()
+        self.dessineplayers()
+        while self.environnement == 'playing' and not self.ending:
+            self.eventlistener()
+            self.time.tick(60)
 
     """
     "
@@ -49,23 +84,29 @@ class World:
         for evenement in pygame.event.get():
             if evenement.type == pygame.QUIT:
                 self.ending = True
-            if evenement.type == pygame.KEYDOWN:
-                if evenement.key == pygame.K_z:
-                    self.player[0].deplacer('UP')
-                if evenement.key == pygame.K_d:
-                    self.player[0].deplacer('RIGHT')
-                if evenement.key == pygame.K_s:
-                    self.player[0].deplacer('DOWN')
-                if evenement.key == pygame.K_q:
-                    self.player[0].deplacer('LEFT')
-                if evenement.key == pygame.K_UP:
-                    self.player[1].deplacer('UP')
-                if evenement.key == pygame.K_RIGHT:
-                    self.player[1].deplacer('RIGHT')
-                if evenement.key == pygame.K_DOWN:
-                    self.player[1].deplacer('DOWN')
-                if evenement.key == pygame.K_LEFT:
-                    self.player[1].deplacer('LEFT')
+
+            if self.environnement == "menu":
+                if evenement.type == pygame.MOUSEBUTTONDOWN:
+                    self.environnement = 'playing'
+
+            if self.environnement == "playing":
+                if evenement.type == pygame.KEYDOWN:
+                    if evenement.key == pygame.K_z:
+                        self.player[0].deplacer('UP')
+                    if evenement.key == pygame.K_d:
+                        self.player[0].deplacer('RIGHT')
+                    if evenement.key == pygame.K_s:
+                        self.player[0].deplacer('DOWN')
+                    if evenement.key == pygame.K_q:
+                        self.player[0].deplacer('LEFT')
+                    if evenement.key == pygame.K_UP:
+                        self.player[1].deplacer('UP')
+                    if evenement.key == pygame.K_RIGHT:
+                        self.player[1].deplacer('RIGHT')
+                    if evenement.key == pygame.K_DOWN:
+                        self.player[1].deplacer('DOWN')
+                    if evenement.key == pygame.K_LEFT:
+                        self.player[1].deplacer('LEFT')
 
     """
     "
@@ -103,6 +144,9 @@ class World:
         self.player.append(Personnage(1, [[0], [1, 1]], 2))
         self.player.append(Personnage(2, [[0], [28, 16]], 2))
 
+    def dessineplayers(self):
+        self.player[0].dessine()
+        self.player[1].dessine()
     """
     "
     " initalisations des diferents levels
@@ -155,9 +199,12 @@ class World:
             ]
         )
 
-        self.carte = Carte(self.level[0])
-        self.carte.affichecarte()
+    def initcarte(self):
+        self.carte = Carte([])
+        self.carte.elements = self.level[0]
 
+    def dessinecarte(self):
+        self.carte.affichecarte()
 
 """
 "
