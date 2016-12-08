@@ -11,6 +11,7 @@ class World:
     def __init__(self):
         pygame.init()
         self.time = pygame.time.Clock()
+        self.FPS = 60
         self.SCALE = 40
         self.LIMITES = [30, 18]
         self.surface = pygame.display.set_mode([self.LIMITES[0] * self.SCALE, self.LIMITES[1] * self.SCALE])
@@ -42,7 +43,7 @@ class World:
                 self.play()
 
             self.eventlistener()
-            self.time.tick(60)
+            self.time.tick(self.FPS)
 
 
 
@@ -71,6 +72,8 @@ class World:
         self.dessinecarte()
         self.dessineplayers()
         while self.environnement == 'playing' and not self.ending:
+            self.player[0].diminuepenalite()
+            self.player[1].diminuepenalite()
             self.eventlistener()
             self.time.tick(60)
 
@@ -290,8 +293,9 @@ class Personnage:
         self.position = position
         self.pose = pose
         self.surface = list()
+        self.penalite = 0
 
-        for pose in ['TOP', 'RIGHT', 'DOWN', 'LEFT']:
+        for pose in ['TOP', 'RIGHT', 'DOWN', 'LEFT', 'DEAD']:
             self.surface.append(
                 pygame.transform.scale(
                     pygame.image.load(self.url + pose + '.png'),
@@ -299,6 +303,7 @@ class Personnage:
                 )
             )
         self.dessine()
+
 
     """
     "
@@ -317,41 +322,43 @@ class Personnage:
     """
 
     def deplacer(self, evenement):
-        world.imageBlock[self.caseactuel()].dessine([self.position[1][0], self.position[1][1]])
-        if not self.autrepersonne(evenement):
-            if self.obstacle(evenement):
-                if self.nom == 1:
-                    self.position[1] = [1,1]
-                if self.nom == 2:
-                    self.position[1] = [28, 16]
-                self.pose = 2
-            else:
-                if evenement == 'UP':
-                    if self.limite(evenement):
-                        self.position[1][1] = world.LIMITES[1] - 1
-                    else:
-                        self.position[1][1] -= 1
-                    self.pose = 0
-                if evenement == 'RIGHT':
-                    if self.limite(evenement):
-                        self.position[1][0] = 0
-                    else:
-                        self.position[1][0] += 1
-                    self.pose = 1
-                if evenement == 'DOWN':
-                    if self.limite(evenement):
-                        self.position[1][1] = 0
-                    else:
-                        self.position[1][1] += 1
-                    self.pose = 2
-                if evenement == 'LEFT':
-                    if self.limite(evenement):
-                        self.position[1][0] = world.LIMITES[0] - 1
-                    else:
-                        self.position[1][0] -= 1
-                    self.pose = 3
-            world.carte.coloriecase(self.nom, [self.position[1][0], self.position[1][1]])
-        self.dessine()
+        if self.penalite == 0:
+            world.imageBlock[self.caseactuel()].dessine([self.position[1][0], self.position[1][1]])
+            if not self.autrepersonne(evenement):
+                if self.obstacle(evenement):
+                    if self.nom == 1:
+                        self.position[1] = [1,1]
+                        self.mort()
+                    if self.nom == 2:
+                        self.position[1] = [28, 16]
+                        self.mort()
+                else:
+                    if evenement == 'UP':
+                        if self.limite(evenement):
+                            self.position[1][1] = world.LIMITES[1] - 1
+                        else:
+                            self.position[1][1] -= 1
+                        self.pose = 0
+                    if evenement == 'RIGHT':
+                        if self.limite(evenement):
+                            self.position[1][0] = 0
+                        else:
+                            self.position[1][0] += 1
+                        self.pose = 1
+                    if evenement == 'DOWN':
+                        if self.limite(evenement):
+                            self.position[1][1] = 0
+                        else:
+                            self.position[1][1] += 1
+                        self.pose = 2
+                    if evenement == 'LEFT':
+                        if self.limite(evenement):
+                            self.position[1][0] = world.LIMITES[0] - 1
+                        else:
+                            self.position[1][0] -= 1
+                        self.pose = 3
+                world.carte.coloriecase(self.nom, [self.position[1][0], self.position[1][1]])
+            self.dessine()
 
     """
     "
@@ -420,6 +427,17 @@ class Personnage:
             else:
                 return self.position[1][0] == world.player[0].position[1][0] + 1 and self.position[1][1] == \
                                                                                      world.player[0].position[1][1]
+    def mort(self):
+        self.penalite = 2 * world.FPS
+        self.pose = 4
+
+
+    def diminuepenalite(self):
+        if self.penalite != 0:
+            self.penalite -= 1
+            if self.penalite == 0:
+                self.pose = 2
+                self.dessine()
 
     """
     "
