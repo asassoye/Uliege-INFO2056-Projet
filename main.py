@@ -15,6 +15,7 @@ class World:
         self.SCALE = 40
         self.LIMITES = [30, 18]
         self.surface = pygame.display.set_mode([self.LIMITES[0] * self.SCALE, self.LIMITES[1] * self.SCALE])
+        pygame.display.set_caption('SplatULg')
         self.environnement = str()
         self.ending = False
         self.imageBlock = list()
