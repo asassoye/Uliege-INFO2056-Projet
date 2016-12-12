@@ -46,8 +46,6 @@ class World:
             self.eventlistener()
             self.time.tick(self.FPS)
 
-
-
         pygame.display.quit()
         pygame.quit()
         exit()
@@ -153,6 +151,7 @@ class World:
     def dessineplayers(self):
         self.player[0].dessine()
         self.player[1].dessine()
+
     """
     "
     " initalisations des diferents levels
@@ -226,12 +225,14 @@ class World:
             [ 3, 5, 5, 5,11, 0,10, 5, 3, 5,11, 0,10, 5, 3, 3, 5,11, 0,10, 5, 3, 5,11, 0,10, 5, 5, 5, 3]   #17
             ]
         )
+
     def initcarte(self):
         self.carte = Carte([])
-        self.carte.elements = self.level[0]
+        self.carte.elements = self.level[2]
 
     def dessinecarte(self):
         self.carte.affichecarte()
+
 
 """
 "
@@ -328,7 +329,6 @@ class Personnage:
             )
         self.dessine()
 
-
     """
     "
     " Renvoi le type d'element (block) se trouvant a sa position
@@ -351,7 +351,7 @@ class Personnage:
             if not self.autrepersonne(evenement):
                 if self.obstacle(evenement):
                     if self.nom == 1:
-                        self.position[1] = [1,1]
+                        self.position[1] = [1, 1]
                         self.mort()
                     if self.nom == 2:
                         self.position[1] = [28, 16]
@@ -451,10 +451,10 @@ class Personnage:
             else:
                 return self.position[1][0] == world.player[0].position[1][0] + 1 and self.position[1][1] == \
                                                                                      world.player[0].position[1][1]
+
     def mort(self):
         self.penalite = 2 * world.FPS
         self.pose = 4
-
 
     def diminuepenalite(self):
         if self.penalite != 0:
