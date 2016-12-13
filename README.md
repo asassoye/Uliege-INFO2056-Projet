@@ -1,4 +1,6 @@
-# Premier Projet de Programation
-##Université de Liège - Sciences informatiques
+# [INFO2056-1] Premier projet d'informatique
+## Université de Liège - Sciences informatiques
 
-Premier projet de programmation en sciences informatiques bloc 1 Q1
+Premier projet d'informatique en sciences informatiques Bloc1 Q1 donné par Bernard Boigelot et Laurent Mathy
+
+![alt tag](https://github.com/asassoye/INFO2056-1/blob/master/menu/main.png?raw=true)
