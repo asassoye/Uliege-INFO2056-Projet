@@ -14,15 +14,162 @@ class World:
         self.FPS = 60
         self.SCALE = 40
         self.LIMITES = [30, 18]
-        self.surface = pygame.display.set_mode([self.LIMITES[0] * self.SCALE, self.LIMITES[1] * self.SCALE])
+        self.surface = pygame.display.set_mode(
+            [self.get_limites('x') * self.get_scale(), self.get_limites('y') * self.get_scale()])
         pygame.display.set_caption('SplatULg')
         self.environnement = str()
         self.ending = False
         self.imageBlock = list()
         self.level = list()
         self.player = list()
-        self.carte = object()
+        self.carte = Carte([])
         pygame.display.flip()
+
+    """
+    "
+    " Getter/Setter Attr "time"
+    "
+    """
+
+    def get_time(self):
+        return self.time
+
+    def set_time(self, time):
+        self.time = time
+
+    """
+    "
+    " Getter Attr "FPS"
+    "
+    """
+
+    def get_fps(self):
+        return self.FPS
+
+    """
+    "
+    " GetterAttr "SCALE"
+    "
+    """
+
+    def get_scale(self):
+        return self.SCALE
+
+    """
+    "
+    " Getter Attr "LIMITES"
+    "
+    """
+
+    def get_limites(self, axe=None):
+        if axe == 'x':
+            return self.LIMITES[0]
+        elif axe == 'y':
+            return self.LIMITES[1]
+        else:
+            return self.LIMITES
+
+    """
+    "
+    " Getter/Setter Attr "surface"
+    "
+    """
+
+    def get_surface(self):
+        return self.surface
+
+    def set_surface(self, surface):
+        self.surface = surface
+
+    """
+    "
+    " Getter/Setter Attr "environnement"
+    "
+    """
+
+    def get_environnement(self):
+        return self.environnement
+
+    def set_environnement(self, environnement):
+        self.environnement = environnement
+
+    """
+    "
+    " Getter/Setter Attr "ending"
+    "
+    """
+
+    def get_ending(self):
+        return self.ending
+
+    def set_ending(self, ending):
+        self.ending = ending
+
+    """
+    "
+    " Getter/Setter Attr "imageBlock"
+    "
+    """
+
+    def get_imageblock(self, id=None):
+        if id != None:
+            return self.imageBlock[id]
+        else:
+            return self.imageBlock
+
+    def set_imageblock(self, imageblock):
+        self.imageBlock = imageblock
+
+    def add_imageblock(self, imageblock):
+        self.imageBlock.append(imageblock)
+
+    """
+    "
+    " Getter/Setter Attr "level"
+    "
+    """
+
+    def get_level(self, id=None):
+        if id != None:
+            return self.level[id]
+        else:
+            return self.level
+
+    def set_level(self, level):
+        self.level = level
+
+    def add_level(self, level):
+        self.level.append(level)
+
+    """
+    "
+    " Getter/Setter Attr "player"
+    "
+    """
+
+    def get_player(self, id=None):
+        if id != None:
+            return self.player[id]
+        else:
+            return self.player
+
+    def set_player(self, player):
+        self.player = player
+
+    def add_player(self, player):
+        self.player.append(player)
+
+    """
+    "
+    " Getter/Setter Attr "carte"
+    "
+    """
+
+    def get_carte(self):
+        return self.carte
+
+    def set_carte(self, carte):
+        self.carte = carte
 
     """
     "
@@ -30,21 +177,21 @@ class World:
     "
     """
 
-    def start(self):
-        self.environnement = 'menu'
+    def init(self):
+        self.set_environnement('menu')
         self.initblocks()
         self.initlevels()
         self.initcarte()
         self.initplayers()
-        while not self.ending:
-            if self.environnement == 'menu':
+        while not self.get_ending():
+            if self.get_environnement() == 'menu':
                 self.showmenu()
 
-            if self.environnement == 'playing':
+            if self.get_environnement() == 'playing':
                 self.play()
 
             self.eventlistener()
-            self.time.tick(self.FPS)
+            self.get_time().tick(self.get_fps())
 
         pygame.display.quit()
         pygame.quit()
@@ -54,27 +201,31 @@ class World:
         menu = list()
 
         menu.append(pygame.image.load('./menu/main.png').convert())
-        menu[0] = pygame.transform.scale(menu[0], (self.LIMITES[0] * self.SCALE, self.LIMITES[1] * self.SCALE))
+        menu[0] = pygame.transform.scale(menu[0],
+                                         (self.get_limites('x') * self.get_scale(),
+                                          self.get_limites('y') * self.get_scale()))
 
         menu.append(pygame.image.load('./menu/mainanim.png').convert())
-        menu[1] = pygame.transform.scale(menu[1], (self.LIMITES[0] * self.SCALE, self.LIMITES[1] * self.SCALE))
+        menu[1] = pygame.transform.scale(menu[1],
+                                         (self.get_limites('x') * self.get_scale(),
+                                          self.get_limites('y') * self.get_scale()))
 
         tmp = 1
-        while self.environnement == 'menu' and not self.ending:
+        while self.get_environnement() == 'menu' and not self.get_ending():
             tmp = not tmp
-            self.surface.blit(menu[tmp], [0, 0])
+            self.get_surface().blit(menu[tmp], [0, 0])
             pygame.display.flip()
             self.eventlistener()
-            self.time.tick(10)
+            self.get_time().tick(10)
 
     def play(self):
         self.dessinecarte()
         self.dessineplayers()
-        while self.environnement == 'playing' and not self.ending:
-            self.player[0].diminuepenalite()
-            self.player[1].diminuepenalite()
+        while self.get_environnement() == 'playing' and not self.get_ending():
+            self.get_player(0).diminuepenalite()
+            self.get_player(1).diminuepenalite()
             self.eventlistener()
-            self.time.tick(60)
+            self.get_time().tick(60)
 
     """
     "
@@ -84,33 +235,33 @@ class World:
 
     def eventlistener(self):
         for evenement in pygame.event.get():
-            if self.environnement == "menu":
+            if self.get_environnement() == "menu":
                 if evenement.type == pygame.QUIT:
                     if evenement.type == pygame.QUIT:
-                        self.ending = True
+                        self.set_ending(True)
                 if evenement.type == pygame.MOUSEBUTTONDOWN:
-                    self.environnement = 'playing'
+                    self.set_environnement('playing')
 
-            if self.environnement == "playing":
+            if self.get_environnement() == "playing":
                 if evenement.type == pygame.QUIT:
-                    self.environnement = 'menu'
+                    self.set_environnement('menu')
                 if evenement.type == pygame.KEYDOWN:
                     if evenement.key == pygame.K_z:
-                        self.player[0].deplacer('UP')
+                        self.get_player(0).deplacer('UP')
                     if evenement.key == pygame.K_d:
-                        self.player[0].deplacer('RIGHT')
+                        self.get_player(0).deplacer('RIGHT')
                     if evenement.key == pygame.K_s:
-                        self.player[0].deplacer('DOWN')
+                        self.get_player(0).deplacer('DOWN')
                     if evenement.key == pygame.K_q:
-                        self.player[0].deplacer('LEFT')
+                        self.get_player(0).deplacer('LEFT')
                     if evenement.key == pygame.K_UP:
-                        self.player[1].deplacer('UP')
+                        self.get_player(1).deplacer('UP')
                     if evenement.key == pygame.K_RIGHT:
-                        self.player[1].deplacer('RIGHT')
+                        self.get_player(1).deplacer('RIGHT')
                     if evenement.key == pygame.K_DOWN:
-                        self.player[1].deplacer('DOWN')
+                        self.get_player(1).deplacer('DOWN')
                     if evenement.key == pygame.K_LEFT:
-                        self.player[1].deplacer('LEFT')
+                        self.get_player(1).deplacer('LEFT')
 
     """
     "
@@ -119,24 +270,24 @@ class World:
     """
 
     def initblocks(self):
-        self.imageBlock.append(ImageBlock("0", False))
-        self.imageBlock.append(ImageBlock("1", False))
-        self.imageBlock.append(ImageBlock("2", False))
-        self.imageBlock.append(ImageBlock("3", True))
-        self.imageBlock.append(ImageBlock("4", True))
-        self.imageBlock.append(ImageBlock("5", True))
-        self.imageBlock.append(ImageBlock("6", True))
-        self.imageBlock.append(ImageBlock("7", True))
-        self.imageBlock.append(ImageBlock("8", True))
-        self.imageBlock.append(ImageBlock("9", True))
-        self.imageBlock.append(ImageBlock("10", True))
-        self.imageBlock.append(ImageBlock("11", True))
-        self.imageBlock.append(ImageBlock("12", True))
-        self.imageBlock.append(ImageBlock("13", True))
-        self.imageBlock.append(ImageBlock("14", True))
-        self.imageBlock.append(ImageBlock("15", True))
-        self.imageBlock.append(ImageBlock("16", True))
-        self.imageBlock.append(ImageBlock("17", True))
+        self.add_imageblock(ImageBlock("0", False))
+        self.add_imageblock(ImageBlock("1", False))
+        self.add_imageblock(ImageBlock("2", False))
+        self.add_imageblock(ImageBlock("3", True))
+        self.add_imageblock(ImageBlock("4", True))
+        self.add_imageblock(ImageBlock("5", True))
+        self.add_imageblock(ImageBlock("6", True))
+        self.add_imageblock(ImageBlock("7", True))
+        self.add_imageblock(ImageBlock("8", True))
+        self.add_imageblock(ImageBlock("9", True))
+        self.add_imageblock(ImageBlock("10", True))
+        self.add_imageblock(ImageBlock("11", True))
+        self.add_imageblock(ImageBlock("12", True))
+        self.add_imageblock(ImageBlock("13", True))
+        self.add_imageblock(ImageBlock("14", True))
+        self.add_imageblock(ImageBlock("15", True))
+        self.add_imageblock(ImageBlock("16", True))
+        self.add_imageblock(ImageBlock("17", True))
 
     """
     "
@@ -145,12 +296,12 @@ class World:
     """
 
     def initplayers(self):
-        self.player.append(Personnage(1, [[0], [1, 1]], 2))
-        self.player.append(Personnage(2, [[0], [28, 16]], 2))
+        self.add_player(Personnage(1, [1, 1], 2))
+        self.add_player(Personnage(2, [28, 16], 2))
 
     def dessineplayers(self):
-        self.player[0].dessine()
-        self.player[1].dessine()
+        self.get_player(0).dessine()
+        self.get_player(1).dessine()
 
     """
     "
@@ -159,7 +310,7 @@ class World:
     """
 
     def initlevels(self):
-        self.level.append([
+        self.add_level([
             # 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29
             [ 3, 7, 7,12, 0, 0, 0,13, 7,12, 0, 0, 0,13, 7, 7,12, 0, 0, 0,13, 7,12, 0, 0, 0,13, 7, 7, 3],  #0
             [ 6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],  #1
@@ -181,7 +332,7 @@ class World:
             [ 3, 5, 5,11, 0, 0, 0,10, 5,11, 0, 0, 0,10, 5, 5,11, 0, 0, 0,10, 5,11, 0, 0, 0,10, 5, 5, 3]   #17
             ]
         )
-        self.level.append([
+        self.add_level([
             # 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29
             [ 3, 7, 7,12, 0,17, 0,13, 7,12, 0, 9, 0,13, 7, 7,12, 0, 9, 0,13, 7,12, 0,17, 0,13, 7, 7, 3],  #0
             [ 6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],  #1
@@ -203,7 +354,7 @@ class World:
             [ 3, 5, 5,11, 0,15, 0,10, 5,11, 0, 9, 0,10, 5, 5,11, 0, 9, 0,10, 5,11, 0,15, 0,10, 5, 5, 3]   #17
             ]
         )
-        self.level.append([
+        self.add_level([
             # 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29
             [ 3, 7, 7,12, 0, 0, 0,13, 7,12, 0, 0, 0,13, 7, 7,12, 0, 0, 0,13, 7,12, 0, 0, 0,13, 7, 7, 3],  #0
             [ 6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],  #1
@@ -225,7 +376,7 @@ class World:
             [ 3, 5, 5,11, 0, 0, 0,10, 5,11, 0, 0, 0,10, 5, 5,11, 0, 0, 0,10, 5,11, 0, 0, 0,10, 5, 5, 3]   #17
             ]
         )
-        self.level.append([
+        self.add_level([
             # 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29
             [ 3, 7, 7, 7,12, 0,13, 7, 3, 7,12, 0,13, 7, 3, 3, 7,12, 0,13, 7, 3, 7,12, 0,13, 7, 7, 7, 3],  #0
             [ 6, 1, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 4, 6, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 4],  #1
@@ -249,11 +400,10 @@ class World:
         )
 
     def initcarte(self):
-        self.carte = Carte([])
-        self.carte.elements = self.level[1]
+        self.get_carte().elements = self.get_level(1)
 
     def dessinecarte(self):
-        self.carte.affichecarte()
+        self.get_carte().affichecarte()
 
 
 """
@@ -269,6 +419,18 @@ class Carte:
 
     """
     "
+    " Getter/Setter Attr "elements"
+    "
+    """
+
+    def get_elements(self):
+        return self.elements
+
+    def set_elements(self, elements):
+        self.elements = elements
+
+    """
+    "
     " Affichage de la carte
     "
     """
@@ -276,11 +438,11 @@ class Carte:
     def affichecarte(self):
         i = 0
 
-        for lines in self.elements:
+        for lines in self.get_elements():
             j = 0
 
             for element in lines:
-                world.imageBlock[element].dessine([j, i])
+                world.get_imageblock(element).dessine([j, i])
                 j += 1
 
             i += 1
@@ -294,11 +456,11 @@ class Carte:
     """
 
     def quelblock(self, coordonnees):
-        return world.imageBlock[self.elements[coordonnees[1]][coordonnees[0]]]
+        return world.get_imageblock(self.elements[coordonnees[1]][coordonnees[0]])
 
     def coloriecase(self, type, coordonnees):
         self.elements[coordonnees[1]][coordonnees[0]] = type
-        world.imageBlock[type].dessine([coordonnees[0], coordonnees[1]])
+        world.get_imageblock(type).dessine([coordonnees[0], coordonnees[1]])
 
 
 """
@@ -309,12 +471,60 @@ class Carte:
 
 
 class ImageBlock:
-    def __init__(self, nom, obstacle):
+    def __init__(self, nom, isObstacle):
         self.nom = nom
         self.url = './imageBlock/' + nom + '.png'
-        self.obstacle = obstacle
+        self.isObstacle = isObstacle
         self.surface = pygame.image.load(self.url).convert()
-        self.surface = pygame.transform.scale(self.surface, (world.SCALE, world.SCALE))
+        self.surface = pygame.transform.scale(self.get_surface(), (world.get_scale(), world.get_scale()))
+
+    """
+    "
+    " Getter/Setter Attr "nom"
+    "
+    """
+
+    def get_nom(self):
+        return self.nom
+
+    def set_nom(self, nom):
+        self.nom = nom
+
+    """
+    "
+    " Getter/Setter Attr "url"
+    "
+    """
+
+    def get_url(self):
+        return self.url
+
+    def set_url(self, url):
+        self.url = url
+
+    """
+    "
+    " Getter/Setter Attr "obstacle"
+    "
+    """
+
+    def is_obstacle(self):
+        return self.isObstacle
+
+    def set_is_obstacle(self, isobstacle):
+        self.isObstacle = isobstacle
+
+    """
+    "
+    " Getter/Setter Attr "surface"
+    "
+    """
+
+    def get_surface(self):
+        return self.surface
+
+    def set_surface(self, surface):
+        self.surface = surface
 
     """
     "
@@ -323,7 +533,8 @@ class ImageBlock:
     """
 
     def dessine(self, coordonees):
-        world.surface.blit(self.surface, [coordonees[0] * world.SCALE, coordonees[1] * world.SCALE])
+        world.get_surface().blit(self.get_surface(),
+                                 [coordonees[0] * world.get_scale(), coordonees[1] * world.get_scale()])
 
 
 """
@@ -343,13 +554,125 @@ class Personnage:
         self.penalite = 0
 
         for pose in ['TOP', 'RIGHT', 'DOWN', 'LEFT', 'DEAD']:
-            self.surface.append(
+            self.add_surface(
                 pygame.transform.scale(
                     pygame.image.load(self.url + pose + '.png'),
-                    (world.SCALE, world.SCALE)
+                    (world.get_scale(), world.get_scale())
                 )
             )
         self.dessine()
+
+    """
+    "
+    " Getter/Setter Attr "nom"
+    "
+    """
+
+    def get_nom(self):
+        return self.nom
+
+    def set_nom(self, nom):
+        self.nom = nom
+
+    """
+    "
+    " Getter/Setter Attr "url"
+    "
+    """
+
+    def get_url(self):
+        return self.url
+
+    def set_url(self, url):
+        self.url = url
+
+    """
+    "
+    " Getter/Setter Attr "position"
+    "
+    """
+
+    def get_position(self, axe=None):
+        if axe == 'x':
+            return self.position[0]
+        elif axe == 'y':
+            return self.position[1]
+        else:
+            return self.position
+
+    def set_position(self, position, axe=None):
+        if axe == 'x':
+            self.position[0] = position
+        elif axe == 'y':
+            self.position[1] = position
+        else:
+            self.position = position
+
+    def augmente_position(self, axe, nombre=None):
+        if axe == 'x':
+            if nombre != None:
+                self.position[0] += nombre
+            else:
+                self.position[0] += 1
+        elif axe == 'y':
+            if nombre != None:
+                self.position[1] += nombre
+            else:
+                self.position[1] += 1
+
+    def diminue_position(self, axe, nombre=None):
+        if axe == 'x':
+            if nombre != None:
+                self.position[0] -= nombre
+            else:
+                self.position[0] -= 1
+        elif axe == 'y':
+            if nombre != None:
+                self.position[1] -= nombre
+            else:
+                self.position[1] -= 1
+
+    """
+    "
+    " Getter/Setter Attr "pose"
+    "
+    """
+
+    def get_pose(self):
+        return self.pose
+
+    def set_pose(self, pose):
+        self.pose = pose
+
+    """
+    "
+    " Getter/Setter Attr "surface"
+    "
+    """
+
+    def get_surface(self, id=None):
+        if id != None:
+            return self.surface[id]
+        else:
+            return self.surface
+
+    def set_surface(self, surface):
+        self.surface = surface
+
+    def add_surface(self, surface):
+        self.surface.append(surface)
+
+    """
+    "
+    " Getter/Setter Attr "penalite"
+    "
+    """
+
+    def get_penalite(self):
+        return self.penalite
+
+    def set_penalite(self, penalite):
+        self.penalite = penalite
 
     """
     "
@@ -358,7 +681,7 @@ class Personnage:
     """
 
     def caseactuel(self):
-        return world.carte.elements[self.position[1][1]][self.position[1][0]]
+        return world.get_carte().elements[self.get_position('y')][self.get_position('x')]
 
     """
     "
@@ -369,41 +692,41 @@ class Personnage:
 
     def deplacer(self, evenement):
         if self.penalite == 0:
-            world.imageBlock[self.caseactuel()].dessine([self.position[1][0], self.position[1][1]])
+            world.get_imageblock(self.caseactuel()).dessine([self.get_position('x'), self.get_position('y')])
             if not self.autrepersonne(evenement):
                 if self.obstacle(evenement):
                     if self.nom == 1:
-                        self.position[1] = [1, 1]
+                        self.set_position([1, 1])
                         self.mort()
                     if self.nom == 2:
-                        self.position[1] = [28, 16]
+                        self.set_position([28, 16])
                         self.mort()
                 else:
                     if evenement == 'UP':
                         if self.limite(evenement):
-                            self.position[1][1] = world.LIMITES[1] - 1
+                            self.set_position(world.get_limites('y') - 1, 'y')
                         else:
-                            self.position[1][1] -= 1
-                        self.pose = 0
+                            self.diminue_position('y')
+                        self.set_pose(0)
                     if evenement == 'RIGHT':
                         if self.limite(evenement):
-                            self.position[1][0] = 0
+                            self.set_position(0, 'x')
                         else:
-                            self.position[1][0] += 1
-                        self.pose = 1
+                            self.augmente_position('x')
+                        self.set_pose(1)
                     if evenement == 'DOWN':
                         if self.limite(evenement):
-                            self.position[1][1] = 0
+                            self.set_position(0, 'y')
                         else:
-                            self.position[1][1] += 1
-                        self.pose = 2
+                            self.augmente_position('y')
+                        self.set_pose(2)
                     if evenement == 'LEFT':
                         if self.limite(evenement):
-                            self.position[1][0] = world.LIMITES[0] - 1
+                            self.set_position(world.get_limites('x') - 1, 'x')
                         else:
-                            self.position[1][0] -= 1
-                        self.pose = 3
-                world.carte.coloriecase(self.nom, [self.position[1][0], self.position[1][1]])
+                            self.diminue_position('x')
+                        self.set_pose(3)
+                world.get_carte().coloriecase(self.nom, [self.get_position('x'), self.get_position('y')])
             self.dessine()
 
     """
@@ -414,13 +737,13 @@ class Personnage:
 
     def limite(self, direction):
         if direction == 'UP':
-            return self.position[1][1] == 0
+            return self.get_position('y') == 0
         if direction == 'RIGHT':
-            return self.position[1][0] == world.LIMITES[0] - 1
+            return self.get_position('x') == world.get_limites('x') - 1
         if direction == 'DOWN':
-            return self.position[1][1] == world.LIMITES[1] - 1
+            return self.get_position('y') == world.get_limites('y') - 1
         if direction == 'LEFT':
-            return self.position[1][0] == 0
+            return self.get_position('x') == 0
 
     """
     "
@@ -430,13 +753,17 @@ class Personnage:
 
     def obstacle(self, direction):
         if direction == 'UP':
-            return world.carte.quelblock([self.position[1][0], (self.position[1][1] - 1) % world.LIMITES[1]]).obstacle
+            return world.get_carte().quelblock(
+                [self.get_position('x'), (self.get_position('y') - 1) % world.get_limites('y')]).is_obstacle()
         if direction == 'RIGHT':
-            return world.carte.quelblock([(self.position[1][0] + 1) % world.LIMITES[0], self.position[1][1]]).obstacle
+            return world.get_carte().quelblock(
+                [(self.get_position('x') + 1) % world.get_limites('x'), self.get_position('y')]).is_obstacle()
         if direction == 'DOWN':
-            return world.carte.quelblock([self.position[1][0], (self.position[1][1] + 1) % world.LIMITES[1]]).obstacle
+            return world.get_carte().quelblock(
+                [self.get_position('x'), (self.get_position('y') + 1) % world.get_limites('y')]).is_obstacle()
         if direction == 'LEFT':
-            return world.carte.quelblock([(self.position[1][0] - 1) % world.LIMITES[0], self.position[1][1]]).obstacle
+            return world.get_carte().quelblock(
+                [(self.get_position('x') - 1) % world.get_limites('x'), self.get_position('y')]).is_obstacle()
 
     """
     "
@@ -446,36 +773,36 @@ class Personnage:
 
     def autrepersonne(self, direction):
         if direction == 'UP':
-            if self.nom == 1:
-                return self.position[1][1] == world.player[1].position[1][1] + 1 and self.position[1][0] == \
-                                                                                     world.player[1].position[1][0]
+            if self.get_nom() == 1:
+                return self.get_position('y') == world.get_player(1).get_position('y') + 1 \
+                       and self.get_position('x') == world.get_player(1).get_position('x')
             else:
-                return self.position[1][1] == world.player[0].position[1][1] + 1 and self.position[1][0] == \
-                                                                                     world.player[0].position[1][0]
+                return self.get_position('y') == world.get_player(0).get_position('y') + 1 \
+                       and self.get_position('x') == world.get_player(0).get_position('x')
         if direction == 'RIGHT':
-            if self.nom == 1:
-                return self.position[1][0] == world.player[1].position[1][0] - 1 and self.position[1][1] == \
-                                                                                     world.player[1].position[1][1]
+            if self.get_nom() == 1:
+                return self.get_position('x') == world.get_player(1).get_position('x') - 1 \
+                       and self.get_position('y') == world.get_player(1).get_position('y')
             else:
-                return self.position[1][0] == world.player[0].position[1][0] - 1 and self.position[1][1] == \
-                                                                                     world.player[0].position[1][1]
+                return self.get_position('x') == world.get_player(0).get_position('x') - 1 \
+                       and self.get_position('y') == world.get_player(0).get_position('y')
         if direction == 'DOWN':
-            if self.nom == 1:
-                return self.position[1][1] == world.player[1].position[1][1] - 1 and self.position[1][0] == \
-                                                                                     world.player[1].position[1][0]
+            if self.get_nom() == 1:
+                return self.get_position('y') == world.get_player(1).get_position('y') - 1 \
+                       and self.get_position('x') == world.get_player(1).get_position('x')
             else:
-                return self.position[1][1] == world.player[0].position[1][1] - 1 and self.position[1][0] == \
-                                                                                     world.player[0].position[1][0]
+                return self.get_position('y') == world.get_player(0).get_position('y') - 1 \
+                       and self.get_position('x') == world.get_player(0).get_position('x')
         if direction == 'LEFT':
-            if self.nom == 1:
-                return self.position[1][0] == world.player[1].position[1][0] + 1 and self.position[1][1] == \
-                                                                                     world.player[1].position[1][1]
+            if self.get_nom() == 1:
+                return self.get_position('x') == world.get_player(1).get_position('x') + 1 \
+                       and self.get_position('y') == world.get_player(1).get_position('y')
             else:
-                return self.position[1][0] == world.player[0].position[1][0] + 1 and self.position[1][1] == \
-                                                                                     world.player[0].position[1][1]
+                return self.get_position('x') == world.get_player(0).get_position('x') + 1 \
+                       and self.get_position('y') == world.get_player(0).get_position('y')
 
     def mort(self):
-        self.penalite = 2 * world.FPS
+        self.penalite = 2 * world.get_fps()
         self.pose = 4
 
     def diminuepenalite(self):
@@ -492,15 +819,16 @@ class Personnage:
     """
 
     def dessine(self):
-        world.surface.blit(self.surface[self.pose],
-                           [self.position[1][0] * world.SCALE, self.position[1][1] * world.SCALE])
+        world.get_surface().blit(self.get_surface()[self.pose],
+                                 [self.get_position('x') * world.get_scale(),
+                                  self.get_position('y') * world.get_scale()])
         pygame.display.flip()
 
 
 """
 "
-" Initialise le monde et demarre
+" Initialisation du monde
 "
 """
 world = World()
-world.start()
+world.init()
