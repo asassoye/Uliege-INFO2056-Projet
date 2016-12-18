@@ -190,6 +190,9 @@ class World:
             if self.get_environnement() == 'playing':
                 self.play()
 
+            if self.get_environnement() == 'level':
+                self.showlevel()
+
             self.eventlistener()
             self.get_time().tick(self.get_fps())
 
@@ -218,6 +221,17 @@ class World:
             self.eventlistener()
             self.get_time().tick(10)
 
+    def showlevel(self):
+        level = pygame.image.load('./menu/level.png').convert()
+        level = pygame.transform.scale(level,
+                                       (self.get_limites('x') * self.get_scale(),
+                                        self.get_limites('y') * self.get_scale()))
+        self.get_surface().blit(level, [0, 0])
+        pygame.display.flip()
+        while self.get_environnement() == 'level' and not self.get_ending():
+            self.eventlistener()
+            self.get_time().tick(10)
+
     def play(self):
         self.dessinecarte()
         self.dessineplayers()
@@ -240,7 +254,14 @@ class World:
                     if evenement.type == pygame.QUIT:
                         self.set_ending(True)
                 if evenement.type == pygame.MOUSEBUTTONDOWN:
-                    self.set_environnement('playing')
+                    self.set_environnement('level')
+
+            if self.get_environnement() == "level":
+                if evenement.type == pygame.QUIT:
+                    if evenement.type == pygame.QUIT:
+                        self.set_environnement('menu')
+                if evenement.type == pygame.MOUSEBUTTONDOWN:
+                    self.set_environnement('level')
 
             if self.get_environnement() == "playing":
                 if evenement.type == pygame.QUIT:
