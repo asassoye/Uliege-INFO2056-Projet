@@ -271,7 +271,6 @@ class World:
                             if (162 + 303 * colonne) < pygame.mouse.get_pos()[0] < (433 + 303 * colonne) \
                                     and (115 + 190 * ligne) < pygame.mouse.get_pos()[1] < (276 + 190 * ligne):
                                 self.initcarte(colonne + 3 * ligne)
-                return
 
             if self.get_environnement() == "playing":
                 if evenement.type == pygame.QUIT:
@@ -295,7 +294,6 @@ class World:
                         self.get_player(1).deplacer('DOWN')
                     if evenement.key == pygame.K_LEFT:
                         self.get_player(1).deplacer('LEFT')
-                return
 
     """
     "
