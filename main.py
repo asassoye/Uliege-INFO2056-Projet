@@ -193,6 +193,10 @@ class World:
             if self.get_environnement() == 'level':
                 self.showlevel()
 
+            if self.get_environnement() == 'score':
+                self.showscore()
+
+
             self.get_time().tick(self.get_fps())
 
         pygame.display.quit()
@@ -202,12 +206,12 @@ class World:
     def showmenu(self):
         menu = list()
 
-        menu.append(pygame.image.load('./menu/main.png').convert())
+        menu.append(pygame.image.load('./img/menu/main.png').convert())
         menu[0] = pygame.transform.scale(menu[0],
                                          (self.get_limites('x') * self.get_scale(),
                                           self.get_limites('y') * self.get_scale()))
 
-        menu.append(pygame.image.load('./menu/mainanim.png').convert())
+        menu.append(pygame.image.load('./img/menu/mainanim.png').convert())
         menu[1] = pygame.transform.scale(menu[1],
                                          (self.get_limites('x') * self.get_scale(),
                                           self.get_limites('y') * self.get_scale()))
@@ -225,7 +229,7 @@ class World:
             self.get_time().tick(60)
 
     def showlevel(self):
-        level = pygame.image.load('./menu/level.png').convert()
+        level = pygame.image.load('./img/menu/level.png').convert()
         level = pygame.transform.scale(level,
                                        (self.get_limites('x') * self.get_scale(),
                                         self.get_limites('y') * self.get_scale()))
@@ -236,11 +240,44 @@ class World:
             self.get_time().tick(self.get_fps())
 
     def play(self):
+        time = 2 * 60 * self.get_fps()
         while self.get_environnement() == 'playing' and not self.get_ending():
-            self.get_player(0).diminuepenalite()
-            self.get_player(1).diminuepenalite()
+            if time != 0:
+                self.get_player(0).diminuepenalite()
+                self.get_player(1).diminuepenalite()
+                self.eventlistener()
+                self.get_time().tick(60)
+                time -= 1
+            else:
+                self.set_environnement('score')
+
+    def showscore(self):
+        for player in self.get_player():
+            player.reset_score()
+
+        for lines in self.get_carte().get_elements():
+            for element in lines:
+                if element == 1:
+                    self.get_player(0).augmente_score()
+
+                if element == 2:
+                    self.get_player(1).augmente_score()
+
+        if self.get_player(0).get_score() < self.get_player(1).get_score():
+            board = pygame.image.load('./img/score/1.png').convert_alpha()
+        elif self.get_player(1).get_score() < self.get_player(0).get_score():
+            board = pygame.image.load('./img/score/0.png').convert_alpha()
+        else:
+            board = pygame.image.load('./img/score/egal.png').convert_alpha()
+
+        board = pygame.transform.scale(board, (self.get_limites('x') * self.get_scale(), self.get_limites('y') * self.get_scale()))
+
+        self.get_surface().blit(board, [0, 0])
+        pygame.display.flip()
+
+        while self.get_environnement() == 'score' and not self.get_ending():
             self.eventlistener()
-            self.get_time().tick(60)
+            self.get_time().tick(self.get_fps())
 
     """
     "
@@ -277,7 +314,7 @@ class World:
                     self.set_environnement('menu')
                 if evenement.type == pygame.KEYDOWN:
                     if evenement.key == pygame.K_ESCAPE:
-                        self.set_environnement('menu')
+                        self.set_environnement('score')
                     if evenement.key == pygame.K_z:
                         self.get_player(0).deplacer('UP')
                     if evenement.key == pygame.K_d:
@@ -294,6 +331,14 @@ class World:
                         self.get_player(1).deplacer('DOWN')
                     if evenement.key == pygame.K_LEFT:
                         self.get_player(1).deplacer('LEFT')
+
+            if self.get_environnement() == "score":
+                if evenement.type == pygame.QUIT:
+                    if evenement.type == pygame.QUIT:
+                        self.set_environnement('menu')
+                if evenement.type == pygame.MOUSEBUTTONDOWN:
+                    self.set_environnement('menu')
+                return
 
     """
     "
@@ -564,7 +609,7 @@ class Carte:
 class ImageBlock:
     def __init__(self, nom, isObstacle):
         self.nom = nom
-        self.url = './imageBlock/' + nom + '.png'
+        self.url = './img/imageBlock/' + nom + '.png'
         self.isObstacle = isObstacle
         self.surface = pygame.image.load(self.url).convert()
         self.surface = pygame.transform.scale(self.get_surface(), (world.get_scale(), world.get_scale()))
@@ -638,11 +683,12 @@ class ImageBlock:
 class Personnage:
     def __init__(self, nom, position, pose):
         self.nom = nom
-        self.url = './personnageBlock/' + str(nom) + '/'
+        self.url = './img/personnageBlock/' + str(nom) + '/'
         self.position = position
         self.pose = pose
         self.surface = list()
         self.penalite = 0
+        self.score = 0
 
         for pose in ['TOP', 'RIGHT', 'DOWN', 'LEFT', 'DEAD']:
             self.add_surface(
@@ -764,6 +810,24 @@ class Personnage:
 
     def set_penalite(self, penalite):
         self.penalite = penalite
+
+    """
+    "
+    " Getter/Setter Attr "score"
+    "
+    """
+
+    def get_score(self):
+        return self.score
+
+    def set_score(self, score):
+        self.score = score
+
+    def augmente_score(self):
+        self.score += 1
+
+    def reset_score(self):
+        self.score = 0
 
     """
     "
